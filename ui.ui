@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>522</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QGroupBox" name="Renderer_optionGroupBox">
+      <property name="title">
+       <string>Option</string>
+      </property>
+      <layout class="QFormLayout" name="formLayout_4">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Renderer :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="Renderer_comboBox">
+         <item>
+          <property name="text">
+           <string>Redshift</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Vray</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="tabPosition">
+         <enum>QTabWidget::West</enum>
+        </property>
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <widget class="QWidget" name="ObjectID_tab">
+         <attribute name="title">
+          <string>Object ID</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QHBoxLayout" name="ObjectID_topLayout">
+            <item>
+             <widget class="QLabel" name="objectID_label">
+              <property name="text">
+               <string>Object ID</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="objectID_refresh_button">
+              <property name="text">
+               <string>refresh</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QListWidget" name="ObjectID_listWidget"/>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="ObjectID_option">
+            <property name="title">
+             <string>Option</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="ObjectID_Start_label">
+               <property name="text">
+                <string>Start</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="ObjectID_Start_LineEdit"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="ObjectID_Increment_label">
+               <property name="text">
+                <string>Increment</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="ObjectID_Increment_LineEdit"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="ObjectID_SetI_button">
+            <property name="text">
+             <string>Set object ID</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="MaterialID_tab">
+         <attribute name="title">
+          <string>Material ID</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="matteriaID_topLayout">
+            <item>
+             <widget class="QLabel" name="materialD_label">
+              <property name="text">
+               <string>Material ID</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="materialD_refresh">
+              <property name="text">
+               <string>refresh</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QListWidget" name="MatterialID_listWidget"/>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="MaterialI_option">
+            <property name="title">
+             <string>Option</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout_2">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+             </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="MaterialID_Start_label">
+               <property name="text">
+                <string>Start</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="MaterialID_Start_LineEdit"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="MaterialID_Increment_label">
+               <property name="text">
+                <string>Increment</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="MaterialID_Increment_LineEdit"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="SetMaterialID_button">
+            <property name="text">
+             <string>Set material ID</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="separate_line">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="puzzleMatte_Layout">
+        <item>
+         <layout class="QHBoxLayout" name="puzzleMatteID_topLayout">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="PuzzleID_label">
+            <property name="text">
+             <string>Puzzle matte</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="PuzzleID_refresh_button">
+            <property name="text">
+             <string>refresh</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QListWidget" name="PuzzleID_listWidget"/>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="PuzzleID_option">
+          <property name="title">
+           <string>Option</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_3">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="PuzzleID_Prefix_label">
+             <property name="text">
+              <string>Prefix</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="PuzzleID_Prefix_LineEdit"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="PuzzleID_Name_label">
+             <property name="text">
+              <string>Name</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="PuzzleID_Name_LineEdit"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>Create from selection</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

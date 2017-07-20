@@ -1,4 +1,4 @@
-#master
+#dev
 import os,sys
 from PySide import QtCore, QtGui
 import maya.cmds as cmds

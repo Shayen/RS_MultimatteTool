@@ -13,7 +13,11 @@ try :
 	from pt_RSMultiMatteTool import Vray_engine
 	
 except :
-	modulepath = '/'.join( sys.modules[__name__].__file__.replace('\\',"/").split('/')[:-2] )
+
+	try:
+		modulepath = '/'.join( sys.modules[__name__].__file__.replace('\\',"/").split('/')[:-2] )
+	except :
+		modulepath = '/'.join( os.path.dirname(__file__).replace('\\\\',"/").split('/')[:-1] )
 
 	if modulepath not in sys.path :
 		sys.path.append( modulepath )

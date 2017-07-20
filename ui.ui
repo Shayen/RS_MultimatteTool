@@ -20,15 +20,15 @@
       <property name="title">
        <string>Option</string>
       </property>
-      <layout class="QFormLayout" name="formLayout_4">
-       <item row="0" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Renderer :</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item>
         <widget class="QComboBox" name="Renderer_comboBox">
          <item>
           <property name="text">
@@ -42,6 +42,29 @@
          </item>
         </widget>
        </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="setting_button">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>setting</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -53,8 +76,82 @@
          <enum>QTabWidget::West</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
+        <widget class="QWidget" name="Proxy_ObjectID_tab">
+         <attribute name="title">
+          <string>Proxy_ObjectID</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLabel" name="ProxyObjID_label">
+              <property name="text">
+               <string>Proxy ObjectID</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="ProxyObjID_refresh_button">
+              <property name="text">
+               <string>Refresh</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QListWidget" name="ProxyObjID_listWidget"/>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="Proxy_option">
+            <property name="title">
+             <string>Option</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout_5">
+             <item row="0" column="0">
+              <widget class="QLabel" name="ProxyObjID_name_label">
+               <property name="text">
+                <string>Name</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="ProxyObjID_name_lineEdit"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="ProxyObjID_Start_label">
+               <property name="text">
+                <string>Start</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="ProxyObjID_Start_lineEdit"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="ProxyObjID_Increment_label">
+               <property name="text">
+                <string>Increment</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="ProxyObjID_Increment_lineEdit"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="ProxyObjID_SetProxyObjID_button">
+            <property name="text">
+             <string>Set ObjectID for Proxy</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
         <widget class="QWidget" name="ObjectID_tab">
          <attribute name="title">
           <string>Object ID</string>
@@ -72,7 +169,7 @@
             <item>
              <widget class="QPushButton" name="objectID_refresh_button">
               <property name="text">
-               <string>refresh</string>
+               <string>Refresh</string>
               </property>
              </widget>
             </item>
@@ -87,25 +184,35 @@
              <string>Option</string>
             </property>
             <layout class="QFormLayout" name="formLayout">
-             <item row="0" column="0">
+             <item row="1" column="0">
               <widget class="QLabel" name="ObjectID_Start_label">
                <property name="text">
                 <string>Start</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
+             <item row="1" column="1">
               <widget class="QLineEdit" name="ObjectID_Start_LineEdit"/>
              </item>
-             <item row="1" column="0">
+             <item row="2" column="0">
               <widget class="QLabel" name="ObjectID_Increment_label">
                <property name="text">
                 <string>Increment</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
+             <item row="2" column="1">
               <widget class="QLineEdit" name="ObjectID_Increment_LineEdit"/>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="ObjectID_Name_label">
+               <property name="text">
+                <string>Name</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="ObjectID_Name_LineEdit"/>
              </item>
             </layout>
            </widget>
@@ -136,7 +243,7 @@
             <item>
              <widget class="QPushButton" name="materialD_refresh">
               <property name="text">
-               <string>refresh</string>
+               <string>Refresh</string>
               </property>
              </widget>
             </item>
@@ -154,25 +261,46 @@
              <property name="fieldGrowthPolicy">
               <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
              </property>
-             <item row="0" column="0">
+             <item row="1" column="0">
               <widget class="QLabel" name="MaterialID_Start_label">
                <property name="text">
                 <string>Start</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
+             <item row="1" column="1">
               <widget class="QLineEdit" name="MaterialID_Start_LineEdit"/>
              </item>
-             <item row="1" column="0">
+             <item row="2" column="0">
               <widget class="QLabel" name="MaterialID_Increment_label">
                <property name="text">
                 <string>Increment</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
+             <item row="2" column="1">
               <widget class="QLineEdit" name="MaterialID_Increment_LineEdit"/>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="MaterialID_Select_label">
+               <property name="text">
+                <string>Select on</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QComboBox" name="MaterialID_Select_comboBox">
+               <item>
+                <property name="text">
+                 <string>Mesh Node</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Materia lNode</string>
+                </property>
+               </item>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -212,7 +340,7 @@
           <item>
            <widget class="QPushButton" name="PuzzleID_refresh_button">
             <property name="text">
-             <string>refresh</string>
+             <string>Refresh</string>
             </property>
            </widget>
           </item>

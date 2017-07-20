@@ -50,11 +50,12 @@ class hook (object):
 		objectID = cmds.getAttr(setsName+'.objectId')
 		return objectID
 
-	def createObjectID_sets(self, ID):
+	def createObjectID_sets(self, ID, newName):
 		''' create redshift object ID node and add selection to sets '''
 
 		nodeName = mm.eval("redshiftCreateObjectIdNode();")
 		cmds.setAttr(nodeName+'.objectId', ID)
+		cmds.rename(nodeName,newName)
 		return nodeName
 
 	def setObjectID(self, selectedList, startNum, increment):
@@ -78,6 +79,15 @@ class hook (object):
 
 		return result
 
+	def listProxy(self):
+		allRsProxy = cmds.ls(type='RedshiftProxyMesh')
+		return allRsProxy
+
+	def getProxyObjID(self, proxyNodeName):
+		shapeNode = cmds.listConnections( proxyNodeName + '.outMesh', sh=True )[0]
+		result 	  = cmds.getAttr( shapeNode + '.rsObjectId' )
+		return result
+
 	def getPuzzleMatteID(self, AOV_nodeName):
 		result = {'red':'','green':'','blue':''}
 
@@ -92,15 +102,27 @@ class hook (object):
 		moduleFile = sys.modules[__name__].__file__
 		idType = cmds.getAttr(mmName+'.mode')
 
-		print idType
-		print type(idType)
-
 		if str(idType) is '1' :
 			iconPath = os.path.dirname(moduleFile) + '/icon/redshiftObjectId.png'
 		else :
 			iconPath = os.path.dirname(moduleFile) + '/icon/redshiftMaterialId.png'
 
 		return iconPath
+
+	def setProxyID(self, selectedList, newName, startNum, increment):
+		''' set material ID to slected lists '''
+		count  = int(startNum)
+		increment = int(increment)
+
+		for proxy in selectedList :
+			shapeNode = cmds.listConnections( proxy + '.outMesh', sh=True )[0]
+			cmds.setAttr( shapeNode + '.rsObjectId', count)
+			name = cmds.rename(proxy,newName)
+			cmds.rename(shapeNode,'Shape_'+name)
+
+			count += increment
+
+
 
 	def setPuzzleMatteID(self, selectedList, multimatteName, matteType):
 		''' create puzzle matte from selcted list 
@@ -125,6 +147,9 @@ class hook (object):
 
 			else :
 				ID = self.getObjectID(item)
+
+			#QUERY PROXY ID HERE!!!!!!!
+			<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 			#Assign ID to PuzzleMatte
 			if count == 3 :

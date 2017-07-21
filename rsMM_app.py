@@ -1,3 +1,4 @@
+#Version 1.2Dev
 import os,sys
 from PySide import QtCore, QtGui
 import maya.cmds as cmds
@@ -12,7 +13,11 @@ try :
 	from pt_RSMultiMatteTool import Vray_engine
 	
 except :
-	modulepath = '/'.join( sys.modules[__name__].__file__.replace('\\',"/").split('/')[:-2] )
+
+	try:
+		modulepath = '/'.join( sys.modules[__name__].__file__.replace('\\',"/").split('/')[:-2] )
+	except :
+		modulepath = '/'.join( os.path.dirname(__file__).replace('\\\\',"/").split('/')[:-1] )
 
 	if modulepath not in sys.path :
 		sys.path.append( modulepath )
@@ -77,7 +82,7 @@ logger.info('===================== # App start # =====================')
 
 
 #-------------------------------------------------------------
-_version_ = '1.0 Relese'
+_version_ = '1.2Release'
 _windowName_ = 'Redshift Multimatte V'+_version_
 
 if cmds.window( 'MainWindow' , exists = True ):

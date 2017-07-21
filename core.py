@@ -40,9 +40,11 @@ class app_ui(uic.Ui_MainWindow):
 
 		if self._renderer_ == 'Redshift' :
 			self._hook_ = RedShift_engine.hook()
+			self.tabWidget.addTab(self.Proxy_ObjectID_tab, "Proxy_ObjectID")
 
 		elif self._renderer_ == 'Vray' :
 			self._hook_ = Vray_engine.hook()
+			self.tabWidget.removeTab(self.tabWidget.indexOf(self.Proxy_ObjectID_tab))
 
 		else :
 			logger.error('Cannot swith engine.' + self._renderer_ )
@@ -66,17 +68,22 @@ class app_ui(uic.Ui_MainWindow):
 		#Set renderEngine
 		self.Renderer_comboBox_onChange()
 		#MainWindow.setWindowTitle(QtGui.QApplication.translate(self._windowName_, self._windowName_, None, QtGui.QApplication.UnicodeUTF8))
+		# self.tabWidget.removeTab(self.tabWidget.indexOf(self.Proxy_ObjectID_tab))
 
 		self.MatterialID_listWidget.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
 		self.ObjectID_listWidget.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
-		#self.PuzzleID_listWidget.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
+		self.ProxyObjID_listWidget.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
 
+		self.ObjectID_Name_LineEdit.setText('rsObjectId')
 		self.ObjectID_Start_LineEdit.setText('100')
 		self.ObjectID_Increment_LineEdit.setText('1')
 		self.MaterialID_Start_LineEdit.setText('100')
 		self.MaterialID_Increment_LineEdit.setText('1')
 		self.PuzzleID_Prefix_LineEdit.setText('mm')
 		self.PuzzleID_Name_LineEdit.setText('friends')
+		self.ProxyObjID_name_lineEdit.setText('rsProxy')
+		self.ProxyObjID_Start_lineEdit.setText('100')
+		self.ProxyObjID_Increment_lineEdit.setText('1')
 
 		self.materialD_refresh.clicked.connect(self.material_refresh_onClick)
 		self.Renderer_comboBox.activated.connect(self.Renderer_comboBox_onChange)
@@ -89,12 +96,19 @@ class app_ui(uic.Ui_MainWindow):
 		self.pushButton_2.clicked.connect(self.createPuzzleAOV_fromSelectionLists_onClick)
 		self.PuzzleID_listWidget.itemClicked.connect(self.PuzzleID_listWidget_onSelect)
 		self.ObjectID_listWidget.itemClicked.connect(self.ObjectID_listWidget_onItemClick)
+		self.ProxyObjID_listWidget.itemClicked.connect(self.ProxyObjID_listWidget_onItemSelect)
 		self.MatterialID_listWidget.itemClicked.connect(self.MatterialID_listWidget_onItemSelected)
+		self.ProxyObjID_refresh_button.clicked.connect(self.ProxyObjID_refresh_onClick)
+		self.ProxyObjID_SetProxyObjID_button.clicked.connect(self.ProxyObjID_SetProxyObjID_button_onClick)
+		self.ProxyObjID_listWidget.itemSelectionChanged.connect(self.ProxyObjID_listWidget_onChangeSelect)
+		# self.Proxy_option
 
 		#Refresh all listView
 		self.refresh(section='materialID')
 		self.refresh(section='objectID')
+		self.refresh(section='ProxyID')
 		self.refresh(section='puzzlematte')
+
 
 		self.statusbar.showMessage('App run as ' + self._renderer_ + '.')
 
@@ -136,6 +150,19 @@ class app_ui(uic.Ui_MainWindow):
 				matteID		= self._hook_.getPuzzleMatteID( mmName )
 				iconPath 	= self._hook_.getIconPath(mmName)
 				self.addPuzzleID_toListView( mmName, matteID['red'], matteID['green'], matteID['blue'] ,iconPath)
+		elif section is 'ProxyID':
+
+			Proxy_List = self._hook_.listProxy()
+
+			self.ProxyObjID_listWidget.clear()
+
+			for item in Proxy_List:
+				proxyName 	= item
+				ProxyObjID 	= self._hook_.getProxyObjID( item )
+
+				self.addProxyObjID_tolistWidget( proxyName, ProxyObjID)
+			# pass
+
 		else :
 			''' refresh all section '''
 			logger.warning('nothing reload : ' + section)
@@ -152,10 +179,23 @@ class app_ui(uic.Ui_MainWindow):
 	def PuzzleID_refresh_button_onClick(self):
 		self.refresh(section='puzzlematte')
 
-	def MatterialID_listWidget_onChangeSelect(self):
+	def ProxyObjID_refresh_onClick(self):
+		self.refresh(section='ProxyID')
 
+	def MatterialID_listWidget_onChangeSelect(self):
 		self.ObjectID_listWidget.clearSelection()
-		return
+		self.ProxyObjID_listWidget.clearSelection()
+
+	def ProxyObjID_listWidget_onChangeSelect(self):
+		self.MatterialID_listWidget.clearSelection()
+		self.ObjectID_listWidget.clearSelection()
+
+	def ProxyObjID_listWidget_onItemSelect(self):
+		selectedList = [self.ProxyObjID_listWidget.itemWidget(item).text1() for item in self.ProxyObjID_listWidget.selectedItems()]
+		cmds.select( cmds.listConnections( selectedList[0] + '.outMesh', sh=True ) )
+
+		OverrideStage = True if cmds.getAttr(selectedList[0] + '.objectIdMode') == 1 else False
+		self.ProxyObjID_ObjectID_checkBox.setChecked( OverrideStage )
 
 	def ObjectID_listWidget_onChangeSelect(self):
 
@@ -176,18 +216,17 @@ class app_ui(uic.Ui_MainWindow):
 	def PuzzleID_listWidget_onSelect(self):
 
 		selectedList = [self.PuzzleID_listWidget.itemWidget(item).text1() for item in self.PuzzleID_listWidget.selectedItems()]
-		print selectedList
 		cmds.select(selectedList)
 		return
 
 	def ObjectID_SetID_button_onClick(self):
 		
-		print ('ObjectID_SetID_button_onClick')
 		if cmds.ls(sl=True) == [] :
 			return
 
 		allID = [ self.ObjectID_listWidget.itemWidget(self.ObjectID_listWidget.item(index)).text2() for index in range(self.ObjectID_listWidget.count())]
 		Increment = self.ObjectID_Increment_LineEdit.text()
+		newName = self.ObjectID_Name_LineEdit.text()
 
 		try :
 			maxIDValue = int(max(allID)) + int(Increment)
@@ -195,7 +234,7 @@ class app_ui(uic.Ui_MainWindow):
 			maxIDValue = int( self.ObjectID_Start_LineEdit.text() )
 
 		try:
-			result = self._hook_.createObjectID_sets( maxIDValue )
+			result = self._hook_.createObjectID_sets( ID = maxIDValue, newName = newName )
 			self.refresh(section='objectID')
 			logger.info('CreateObjID : ' + result)
 		except Exception as e:
@@ -203,6 +242,28 @@ class app_ui(uic.Ui_MainWindow):
 
 		self.statusbar.showMessage('Create object ID success.')
 		return
+
+	def ProxyObjID_SetProxyObjID_button_onClick(self):
+		selectedList = [self.ProxyObjID_listWidget.itemWidget(item).text1() for item in self.ProxyObjID_listWidget.selectedItems()]
+
+		if len(selectedList) < 1:
+			self.statusbar.showMessage( 'Please select Proxy in list!!!' )
+			logger.warning( 'Please select Proxy in list!!!' )
+			return
+
+		startNum 	= self.ProxyObjID_Start_lineEdit.text()
+		Increment 	= self.ProxyObjID_Increment_lineEdit.text()
+		newName 	= self.ProxyObjID_name_lineEdit.text()
+		OverrideStage = self.ProxyObjID_ObjectID_checkBox.isChecked()
+
+		try :
+			self._hook_.setProxyID( selectedList = selectedList, newName = newName, startNum = startNum, increment = Increment, OverrideStage = OverrideStage )
+		except Exception as e :
+			logger.error(e)
+
+		self.refresh(section='ProxyID')
+		logger.info('Proxy Object ID was assigned.')
+		self.statusbar.showMessage('assign Proxy object ID success.')	
 
 	def addMaterialID_toListView(self, materialName, materialID):
 		''' add material to materialID listView '''
@@ -236,6 +297,21 @@ class app_ui(uic.Ui_MainWindow):
 		self.ObjectID_listWidget.addItem(item)
 		self.ObjectID_listWidget.setItemWidget( item, mycustomWidget )
 
+	def addProxyObjID_tolistWidget(self, proxyName, proxyID):
+		''' add Object to ObjectID listView '''
+		mycustomWidget = customWidget.customQWidgetItem()
+		mycustomWidget.setText1( str(proxyName) )
+		mycustomWidget.setText2( str(proxyID) )
+
+		mycustomWidget.setTextColor1([240, 240, 240])
+		mycustomWidget.setTextColor2([100, 160, 200])
+
+		item = QtGui.QListWidgetItem(self.ProxyObjID_listWidget)
+		item.setSizeHint(mycustomWidget.sizeHint())
+
+		self.ProxyObjID_listWidget.addItem(item)
+		self.ProxyObjID_listWidget.setItemWidget( item, mycustomWidget )
+
 	def addPuzzleID_toListView(self, mmName, red, green ,blue ,iconPath):
 
 		mycustomWidget = customWidget.customQWidgetItem2()
@@ -265,7 +341,15 @@ class app_ui(uic.Ui_MainWindow):
 	def MatterialID_listWidget_onItemSelected(self):
 		''' when select item in list do select obj Node '''
 		selectedList = [self.MatterialID_listWidget.itemWidget(item).text1() for item in self.MatterialID_listWidget.selectedItems()]
-		cmds.select(selectedList,r=True)
+		
+		if self.MaterialID_Select_comboBox.currentText() != 'Mesh Node' :
+			cmds.select( selectedList, r=True )
+
+		else:
+			try :
+				cmds.hyperShade( objects = selectedList[0] )
+			except Exception as e:
+				logger.warning( 'warning MaterialID selection on \''+ self.MaterialID_Select_comboBox.currentText() +'\' mode : ' + str(e))
 
 	def setMaterialIDButton_onclick(self):
 		''' set materialID to selected list '''
@@ -298,10 +382,11 @@ class app_ui(uic.Ui_MainWindow):
 			logger.warning( 'Please select Object in list!!!' )
 			return
 
-		startNum = self.ObjectID_Start_LineEdit.text()
-		Increment = self.ObjectID_Increment_LineEdit.text()
+		startNum 	= self.ObjectID_Start_LineEdit.text()
+		Increment 	= self.ObjectID_Increment_LineEdit.text()
+		newName 	= self.ObjectID_Name_LineEdit.text()
 
-		self._hook_.setObjectID(selectedList = selectedList, startNum = startNum, increment = Increment )
+		self._hook_.setObjectID(selectedList = selectedList, startNum = startNum, increment = Increment, newName = newName )
 		self.refresh(section='objectID')
 		self.statusbar.showMessage('re-assign ObjectID success.')
 
@@ -317,9 +402,14 @@ class app_ui(uic.Ui_MainWindow):
 				#ObjectSelection
 				selectedList = [self.ObjectID_listWidget.itemWidget(item).text1() for item in self.ObjectID_listWidget.selectedItems()]
 				matteType = 'obj'
+				
 				if len(selectedList) < 1 :
-					logger.warning('Noting Selected.')
-					return
+
+					selectedList = [self.ProxyObjID_listWidget.itemWidget(item).text1() for item in self.ProxyObjID_listWidget.selectedItems()]
+					matteType = 'Pxobj'
+					if len(selectedList) < 1 :
+						logger.warning('Noting Selected.')
+						return
 
 		multimatteName 	= self.PuzzleID_Prefix_LineEdit.text() + '_'+ matteType + '_' + self.PuzzleID_Name_LineEdit.text()
 

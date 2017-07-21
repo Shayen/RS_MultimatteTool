@@ -58,14 +58,15 @@ class hook (object):
 		cmds.rename(nodeName,newName)
 		return nodeName
 
-	def setObjectID(self, selectedList, startNum, increment):
+	def setObjectID(self, selectedList, startNum, increment, newName):
 		
 		count  = int(startNum)
 		increment = int(increment)
 
 		for objectSets in selectedList:
-			#print ('set ' + objectSets + ' : ' + str(count))
+
 			cmds.setAttr(objectSets+'.objectId',count)
+			cmds.rename(objectSets, newName)
 			count += increment
 
 	def listMultimatte(self):
@@ -109,7 +110,7 @@ class hook (object):
 
 		return iconPath
 
-	def setProxyID(self, selectedList, newName, startNum, increment):
+	def setProxyID(self, selectedList, newName, startNum, increment, OverrideStage):
 		''' set material ID to slected lists '''
 		count  = int(startNum)
 		increment = int(increment)
@@ -119,6 +120,11 @@ class hook (object):
 			cmds.setAttr( shapeNode + '.rsObjectId', count)
 			name = cmds.rename(proxy,newName)
 			cmds.rename(shapeNode,'Shape_'+name)
+
+			if OverrideStage :
+				cmds.setAttr( name + '.objectIdMode', 1)
+			else :
+				cmds.setAttr( name + '.objectIdMode', 0)
 
 			count += increment
 
@@ -145,11 +151,15 @@ class hook (object):
 			if matteType == 'mat' :
 				ID = self.getMaterialID(item)
 
-			else :
+			elif matteType == 'obj' :
 				ID = self.getObjectID(item)
 
+			else :
+				PxshapeNode = cmds.listConnections( item + '.outMesh', sh=True )[0]
+				ID = cmds.getAttr(PxshapeNode + '.rsObjectId')
+
 			#QUERY PROXY ID HERE!!!!!!!
-			<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 			#Assign ID to PuzzleMatte
 			if count == 3 :

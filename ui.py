@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:/Users/nook/Desktop/nook_Pipeline/Project/redShift_multimatte/pt_RSMultiMatteTool/ui.ui'
 #
-# Created: Thu Jul 20 18:12:30 2017
+# Created: Fri Jul 21 10:28:31 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -60,6 +60,7 @@ class Ui_MainWindow(object):
         self.Proxy_option = QtGui.QGroupBox(self.Proxy_ObjectID_tab)
         self.Proxy_option.setObjectName("Proxy_option")
         self.formLayout_5 = QtGui.QFormLayout(self.Proxy_option)
+        self.formLayout_5.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)
         self.formLayout_5.setObjectName("formLayout_5")
         self.ProxyObjID_name_label = QtGui.QLabel(self.Proxy_option)
         self.ProxyObjID_name_label.setObjectName("ProxyObjID_name_label")
@@ -79,6 +80,12 @@ class Ui_MainWindow(object):
         self.ProxyObjID_Increment_lineEdit = QtGui.QLineEdit(self.Proxy_option)
         self.ProxyObjID_Increment_lineEdit.setObjectName("ProxyObjID_Increment_lineEdit")
         self.formLayout_5.setWidget(2, QtGui.QFormLayout.FieldRole, self.ProxyObjID_Increment_lineEdit)
+        self.ProxyObjID_ObjectID_checkBox = QtGui.QCheckBox(self.Proxy_option)
+        self.ProxyObjID_ObjectID_checkBox.setObjectName("ProxyObjID_ObjectID_checkBox")
+        self.formLayout_5.setWidget(3, QtGui.QFormLayout.FieldRole, self.ProxyObjID_ObjectID_checkBox)
+        self.ProxyObjID_Override_label = QtGui.QLabel(self.Proxy_option)
+        self.ProxyObjID_Override_label.setObjectName("ProxyObjID_Override_label")
+        self.formLayout_5.setWidget(3, QtGui.QFormLayout.LabelRole, self.ProxyObjID_Override_label)
         self.verticalLayout_4.addWidget(self.Proxy_option)
         self.ProxyObjID_SetProxyObjID_button = QtGui.QPushButton(self.Proxy_ObjectID_tab)
         self.ProxyObjID_SetProxyObjID_button.setObjectName("ProxyObjID_SetProxyObjID_button")
@@ -239,6 +246,8 @@ class Ui_MainWindow(object):
         self.ProxyObjID_name_label.setText(QtGui.QApplication.translate("MainWindow", "Name", None, QtGui.QApplication.UnicodeUTF8))
         self.ProxyObjID_Start_label.setText(QtGui.QApplication.translate("MainWindow", "Start", None, QtGui.QApplication.UnicodeUTF8))
         self.ProxyObjID_Increment_label.setText(QtGui.QApplication.translate("MainWindow", "Increment", None, QtGui.QApplication.UnicodeUTF8))
+        self.ProxyObjID_ObjectID_checkBox.setText(QtGui.QApplication.translate("MainWindow", "ObjectID", None, QtGui.QApplication.UnicodeUTF8))
+        self.ProxyObjID_Override_label.setText(QtGui.QApplication.translate("MainWindow", "Override :", None, QtGui.QApplication.UnicodeUTF8))
         self.ProxyObjID_SetProxyObjID_button.setText(QtGui.QApplication.translate("MainWindow", "Set ObjectID for Proxy", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Proxy_ObjectID_tab), QtGui.QApplication.translate("MainWindow", "Proxy_ObjectID", None, QtGui.QApplication.UnicodeUTF8))
         self.objectID_label.setText(QtGui.QApplication.translate("MainWindow", "Object ID", None, QtGui.QApplication.UnicodeUTF8))
@@ -256,7 +265,7 @@ class Ui_MainWindow(object):
         self.MaterialID_Increment_label.setText(QtGui.QApplication.translate("MainWindow", "Increment", None, QtGui.QApplication.UnicodeUTF8))
         self.MaterialID_Select_label.setText(QtGui.QApplication.translate("MainWindow", "Select on", None, QtGui.QApplication.UnicodeUTF8))
         self.MaterialID_Select_comboBox.setItemText(0, QtGui.QApplication.translate("MainWindow", "Mesh Node", None, QtGui.QApplication.UnicodeUTF8))
-        self.MaterialID_Select_comboBox.setItemText(1, QtGui.QApplication.translate("MainWindow", "Materia lNode", None, QtGui.QApplication.UnicodeUTF8))
+        self.MaterialID_Select_comboBox.setItemText(1, QtGui.QApplication.translate("MainWindow", "Material Node", None, QtGui.QApplication.UnicodeUTF8))
         self.SetMaterialID_button.setText(QtGui.QApplication.translate("MainWindow", "Set material ID", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.MaterialID_tab), QtGui.QApplication.translate("MainWindow", "Material ID", None, QtGui.QApplication.UnicodeUTF8))
         self.PuzzleID_label.setText(QtGui.QApplication.translate("MainWindow", "Puzzle matte", None, QtGui.QApplication.UnicodeUTF8))

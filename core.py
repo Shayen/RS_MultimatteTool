@@ -100,7 +100,7 @@ class app_ui(uic.Ui_MainWindow):
 		self.MatterialID_listWidget.itemClicked.connect(self.MatterialID_listWidget_onItemSelected)
 		self.ProxyObjID_refresh_button.clicked.connect(self.ProxyObjID_refresh_onClick)
 		self.ProxyObjID_SetProxyObjID_button.clicked.connect(self.ProxyObjID_SetProxyObjID_button_onClick)
-		self.ProxyObjID_listWidget.itemSelectionChanged.connect(self.ProxyObjID_SetProxyObjID_listWidget_onChangeSelect)
+		self.ProxyObjID_listWidget.itemSelectionChanged.connect(self.ProxyObjID_listWidget_onChangeSelect)
 		# self.Proxy_option
 
 		#Refresh all listView
@@ -186,13 +186,16 @@ class app_ui(uic.Ui_MainWindow):
 		self.ObjectID_listWidget.clearSelection()
 		self.ProxyObjID_listWidget.clearSelection()
 
-	def ProxyObjID_SetProxyObjID_listWidget_onChangeSelect(self):
+	def ProxyObjID_listWidget_onChangeSelect(self):
 		self.MatterialID_listWidget.clearSelection()
 		self.ObjectID_listWidget.clearSelection()
 
 	def ProxyObjID_listWidget_onItemSelect(self):
 		selectedList = [self.ProxyObjID_listWidget.itemWidget(item).text1() for item in self.ProxyObjID_listWidget.selectedItems()]
 		cmds.select( cmds.listConnections( selectedList[0] + '.outMesh', sh=True ) )
+
+		OverrideStage = True if cmds.getAttr(selectedList[0] + '.objectIdMode') == 1 else False
+		self.ProxyObjID_ObjectID_checkBox.setChecked( OverrideStage )
 
 	def ObjectID_listWidget_onChangeSelect(self):
 
@@ -251,9 +254,10 @@ class app_ui(uic.Ui_MainWindow):
 		startNum 	= self.ProxyObjID_Start_lineEdit.text()
 		Increment 	= self.ProxyObjID_Increment_lineEdit.text()
 		newName 	= self.ProxyObjID_name_lineEdit.text()
+		OverrideStage = self.ProxyObjID_ObjectID_checkBox.isChecked()
 
 		try :
-			self._hook_.setProxyID(selectedList = selectedList, newName = newName, startNum = startNum, increment = Increment)
+			self._hook_.setProxyID( selectedList = selectedList, newName = newName, startNum = startNum, increment = Increment, OverrideStage = OverrideStage )
 		except Exception as e :
 			logger.error(e)
 
@@ -337,7 +341,15 @@ class app_ui(uic.Ui_MainWindow):
 	def MatterialID_listWidget_onItemSelected(self):
 		''' when select item in list do select obj Node '''
 		selectedList = [self.MatterialID_listWidget.itemWidget(item).text1() for item in self.MatterialID_listWidget.selectedItems()]
-		cmds.select(selectedList,r=True)
+		
+		if self.MaterialID_Select_comboBox.currentText() != 'Mesh Node' :
+			cmds.select( selectedList, r=True )
+
+		else:
+			try :
+				cmds.hyperShade( objects = selectedList[0] )
+			except Exception as e:
+				logger.warning( 'warning MaterialID selection on \''+ self.MaterialID_Select_comboBox.currentText() +'\' mode : ' + str(e))
 
 	def setMaterialIDButton_onclick(self):
 		''' set materialID to selected list '''
@@ -370,10 +382,11 @@ class app_ui(uic.Ui_MainWindow):
 			logger.warning( 'Please select Object in list!!!' )
 			return
 
-		startNum = self.ObjectID_Start_LineEdit.text()
-		Increment = self.ObjectID_Increment_LineEdit.text()
+		startNum 	= self.ObjectID_Start_LineEdit.text()
+		Increment 	= self.ObjectID_Increment_LineEdit.text()
+		newName 	= self.ObjectID_Name_LineEdit.text()
 
-		self._hook_.setObjectID(selectedList = selectedList, startNum = startNum, increment = Increment )
+		self._hook_.setObjectID(selectedList = selectedList, startNum = startNum, increment = Increment, newName = newName )
 		self.refresh(section='objectID')
 		self.statusbar.showMessage('re-assign ObjectID success.')
 
@@ -393,7 +406,7 @@ class app_ui(uic.Ui_MainWindow):
 				if len(selectedList) < 1 :
 
 					selectedList = [self.ProxyObjID_listWidget.itemWidget(item).text1() for item in self.ProxyObjID_listWidget.selectedItems()]
-					matteType = 'obj'
+					matteType = 'Pxobj'
 					if len(selectedList) < 1 :
 						logger.warning('Noting Selected.')
 						return

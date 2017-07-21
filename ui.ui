@@ -76,7 +76,7 @@
          <enum>QTabWidget::West</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="Proxy_ObjectID_tab">
          <attribute name="title">
@@ -110,6 +110,9 @@
              <string>Option</string>
             </property>
             <layout class="QFormLayout" name="formLayout_5">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+             </property>
              <item row="0" column="0">
               <widget class="QLabel" name="ProxyObjID_name_label">
                <property name="text">
@@ -139,6 +142,20 @@
              </item>
              <item row="2" column="1">
               <widget class="QLineEdit" name="ProxyObjID_Increment_lineEdit"/>
+             </item>
+             <item row="3" column="1">
+              <widget class="QCheckBox" name="ProxyObjID_ObjectID_checkBox">
+               <property name="text">
+                <string>ObjectID</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="ProxyObjID_Override_label">
+               <property name="text">
+                <string>Override :</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -297,7 +314,7 @@
                </item>
                <item>
                 <property name="text">
-                 <string>Materia lNode</string>
+                 <string>Material Node</string>
                 </property>
                </item>
               </widget>

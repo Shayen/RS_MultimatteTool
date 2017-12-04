@@ -24,8 +24,10 @@ class hook (object):
 
 	def getMaterialID(self, materialName):
 		''' get material ID from name '''
+		materialID = 0
 		materialSG = cmds.listConnections( materialName + '.outColor')[0]
-		materialID = cmds.getAttr(materialSG+'.rsMaterialId')
+		if cmds.objExists(materialSG+'.rsMaterialId'): 
+			materialID = cmds.getAttr(materialSG+'.rsMaterialId')
 
 		return materialID
 
@@ -85,9 +87,11 @@ class hook (object):
 		return allRsProxy
 
 	def getProxyObjID(self, proxyNodeName):
-		shapeNode = cmds.listConnections( proxyNodeName + '.outMesh', sh=True )[0]
-		result 	  = cmds.getAttr( shapeNode + '.rsObjectId' )
-		return result
+		shapeNode = cmds.listConnections( proxyNodeName + '.outMesh', sh=True )
+		if shapeNode: 
+			shapeNode = shapeNode[0]
+			result 	  = cmds.getAttr( shapeNode + '.rsObjectId' )
+			return result
 
 	def getPuzzleMatteID(self, AOV_nodeName):
 		result = {'red':'','green':'','blue':''}

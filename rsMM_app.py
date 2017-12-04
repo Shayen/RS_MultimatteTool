@@ -1,4 +1,4 @@
-#Version 1.2Dev .
+#Version 1.2Dev
 import os,sys
 from PySide import QtCore, QtGui
 import maya.cmds as cmds
@@ -82,7 +82,7 @@ logger.info('===================== # App start # =====================')
 
 
 #-------------------------------------------------------------
-_version_ = '0.1Beta'
+_version_ = '1.2Release'
 _windowName_ = 'Redshift Multimatte V'+_version_
 
 if cmds.window( 'MainWindow' , exists = True ):

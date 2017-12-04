@@ -50,21 +50,23 @@ class hook (object):
 		objectID = cmds.getAttr(setsName+'.objectId')
 		return objectID
 
-	def createObjectID_sets(self, ID):
+	def createObjectID_sets(self, ID, newName):
 		''' create redshift object ID node and add selection to sets '''
 
 		nodeName = mm.eval("redshiftCreateObjectIdNode();")
 		cmds.setAttr(nodeName+'.objectId', ID)
+		cmds.rename(nodeName,newName)
 		return nodeName
 
-	def setObjectID(self, selectedList, startNum, increment):
+	def setObjectID(self, selectedList, startNum, increment, newName):
 		
 		count  = int(startNum)
 		increment = int(increment)
 
 		for objectSets in selectedList:
-			#print ('set ' + objectSets + ' : ' + str(count))
+
 			cmds.setAttr(objectSets+'.objectId',count)
+			cmds.rename(objectSets, newName)
 			count += increment
 
 	def listMultimatte(self):
@@ -76,6 +78,15 @@ class hook (object):
 			if cmds.getAttr(item+'.aovType') == 'Puzzle Matte':
 				result.append(item)
 
+		return result
+
+	def listProxy(self):
+		allRsProxy = cmds.ls(type='RedshiftProxyMesh')
+		return allRsProxy
+
+	def getProxyObjID(self, proxyNodeName):
+		shapeNode = cmds.listConnections( proxyNodeName + '.outMesh', sh=True )[0]
+		result 	  = cmds.getAttr( shapeNode + '.rsObjectId' )
 		return result
 
 	def getPuzzleMatteID(self, AOV_nodeName):
@@ -92,15 +103,32 @@ class hook (object):
 		moduleFile = sys.modules[__name__].__file__
 		idType = cmds.getAttr(mmName+'.mode')
 
-		print idType
-		print type(idType)
-
 		if str(idType) is '1' :
 			iconPath = os.path.dirname(moduleFile) + '/icon/redshiftObjectId.png'
 		else :
 			iconPath = os.path.dirname(moduleFile) + '/icon/redshiftMaterialId.png'
 
 		return iconPath
+
+	def setProxyID(self, selectedList, newName, startNum, increment, OverrideStage):
+		''' set material ID to slected lists '''
+		count  = int(startNum)
+		increment = int(increment)
+
+		for proxy in selectedList :
+			shapeNode = cmds.listConnections( proxy + '.outMesh', sh=True )[0]
+			cmds.setAttr( shapeNode + '.rsObjectId', count)
+			name = cmds.rename(proxy,newName)
+			cmds.rename(shapeNode,'Shape_'+name)
+
+			if OverrideStage :
+				cmds.setAttr( name + '.objectIdMode', 1)
+			else :
+				cmds.setAttr( name + '.objectIdMode', 0)
+
+			count += increment
+
+
 
 	def setPuzzleMatteID(self, selectedList, multimatteName, matteType):
 		''' create puzzle matte from selcted list 
@@ -123,8 +151,15 @@ class hook (object):
 			if matteType == 'mat' :
 				ID = self.getMaterialID(item)
 
-			else :
+			elif matteType == 'obj' :
 				ID = self.getObjectID(item)
+
+			else :
+				PxshapeNode = cmds.listConnections( item + '.outMesh', sh=True )[0]
+				ID = cmds.getAttr(PxshapeNode + '.rsObjectId')
+
+			#QUERY PROXY ID HERE!!!!!!!
+			# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 			#Assign ID to PuzzleMatte
 			if count == 3 :

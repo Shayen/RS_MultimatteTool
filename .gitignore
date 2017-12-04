@@ -1,2 +1,4 @@
 [Ll]og/
 *.pyc
+*.log
+*.old

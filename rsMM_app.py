@@ -6,11 +6,11 @@ import maya.OpenMayaUI as mui
 from shiboken import wrapInstance
 
 try :
-	from pt_RSMultiMatteTool import ui
-	from pt_RSMultiMatteTool import core
-	from pt_RSMultiMatteTool import customWidget 
-	from pt_RSMultiMatteTool import RedShift_engine
-	from pt_RSMultiMatteTool import Vray_engine
+	import ui
+	import core
+	import customWidget 
+	import RedShift_engine
+	import Vray_engine
 	
 except :
 
@@ -26,11 +26,11 @@ except :
 		print ("path is already in sys.path but not load Module.")
 
 	print modulepath
-	from pt_RSMultiMatteTool import ui
-	from pt_RSMultiMatteTool import core
-	from pt_RSMultiMatteTool import customWidget 
-	from pt_RSMultiMatteTool import RedShift_engine
-	from pt_RSMultiMatteTool import Vray_engine
+	import ui
+	import core
+	import customWidget 
+	import RedShift_engine
+	import Vray_engine
 
 reload(ui)
 reload(core)

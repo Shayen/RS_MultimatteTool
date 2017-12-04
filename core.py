@@ -137,7 +137,7 @@ class app_ui(uic.Ui_MainWindow):
 			for item_num in material_List:
 				materialName	= item_num 
 				materialID		= self._hook_.getMaterialID( materialName )
-				if materialID: 
+				if materialID > -1: 
 					self.addMaterialID_toListView( materialName, materialID )
 
 		elif section is 'puzzlematte':

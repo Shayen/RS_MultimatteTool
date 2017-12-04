@@ -4,10 +4,10 @@ import maya.cmds as cmds
 import maya.OpenMayaUI as mui
 from shiboken import wrapInstance
 
-from pt_RSMultiMatteTool import ui as uic
-from pt_RSMultiMatteTool import customWidget
-from pt_RSMultiMatteTool import RedShift_engine
-from pt_RSMultiMatteTool import Vray_engine
+import ui as uic
+import customWidget
+import RedShift_engine
+import Vray_engine
 
 reload(uic)
 reload(customWidget)

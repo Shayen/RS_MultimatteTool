@@ -1,4 +1,4 @@
-#Version 1.2Dev
+#Version 1.2Release
 import os,sys
 from PySide import QtCore, QtGui
 import maya.cmds as cmds

@@ -137,7 +137,8 @@ class app_ui(uic.Ui_MainWindow):
 			for item_num in material_List:
 				materialName	= item_num 
 				materialID		= self._hook_.getMaterialID( materialName )
-				self.addMaterialID_toListView( materialName, materialID )
+				if materialID: 
+					self.addMaterialID_toListView( materialName, materialID )
 
 		elif section is 'puzzlematte':
 			
@@ -159,8 +160,9 @@ class app_ui(uic.Ui_MainWindow):
 			for item in Proxy_List:
 				proxyName 	= item
 				ProxyObjID 	= self._hook_.getProxyObjID( item )
+				if ProxyObjID: 
 
-				self.addProxyObjID_tolistWidget( proxyName, ProxyObjID)
+					self.addProxyObjID_tolistWidget( proxyName, ProxyObjID)
 			# pass
 
 		else :

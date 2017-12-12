@@ -80,7 +80,6 @@ logger.setLevel(logging.INFO)
 
 logger.info('===================== # App start # =====================')
 
-
 #-------------------------------------------------------------
 _version_ = '1.2Release'
 _windowName_ = 'Redshift Multimatte V'+_version_
@@ -99,16 +98,13 @@ class myWindow(QtGui.QMainWindow):
 		def __init__(self, parent=None):
 			super(myWindow, self).__init__(parent)
 
-try :
 
-	MainWindow = myWindow( getMayaWindow() )
-	ui = core.app_ui( )
-	ui._windowName_ = _windowName_
-	ui.setupUi(MainWindow)
-	MainWindow.show()
-	MainWindow.setWindowTitle( _windowName_ )
+MainWindow = myWindow( getMayaWindow() )
+ui = core.app_ui( )
+ui._windowName_ = _windowName_
+ui.setupUi(MainWindow)
+MainWindow.show()
+MainWindow.setWindowTitle( _windowName_ )
 
-	logger.info('UI loaded ...')
+logger.info('UI loaded ...')
 
-except Exception as e:
-	logger.error(e)

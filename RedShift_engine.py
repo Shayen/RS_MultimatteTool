@@ -25,11 +25,20 @@ class hook (object):
 	def getMaterialID(self, materialName):
 		''' get material ID from name '''
 		materialID = 0
-		materialSG = cmds.listConnections( materialName + '.outColor')[0]
-		if cmds.objExists(materialSG+'.rsMaterialId'): 
-			materialID = cmds.getAttr(materialSG+'.rsMaterialId')
+		materialSG = cmds.listConnections( materialName + '.outColor')
 
-		return materialID
+		if materialSG :
+
+			materialSG = materialSG[0]
+
+			if cmds.objExists(materialSG+'.rsMaterialId'): 
+				materialID = cmds.getAttr(materialSG+'.rsMaterialId')
+
+			return materialID
+
+		else :
+			logger.warning("Unassign shader : " + materialName)
+			return 0
 
 	def setMaterialID(self,selectedList, startNum, increment):
 		''' set material ID to slected lists '''

@@ -160,9 +160,9 @@ class app_ui(uic.Ui_MainWindow):
 			for item in Proxy_List:
 				proxyName 	= item
 				ProxyObjID 	= self._hook_.getProxyObjID( item )
-				if ProxyObjID: 
+				# if ProxyObjID: 
 
-					self.addProxyObjID_tolistWidget( proxyName, ProxyObjID)
+				self.addProxyObjID_tolistWidget( proxyName, ProxyObjID)
 			# pass
 
 		else :
@@ -261,7 +261,7 @@ class app_ui(uic.Ui_MainWindow):
 		try :
 			self._hook_.setProxyID( selectedList = selectedList, newName = newName, startNum = startNum, increment = Increment, OverrideStage = OverrideStage )
 		except Exception as e :
-			logger.error(e)
+			logger.exception("Can not set Proxxy ID")
 
 		self.refresh(section='ProxyID')
 		logger.info('Proxy Object ID was assigned.')

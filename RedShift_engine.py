@@ -131,8 +131,20 @@ class hook (object):
 		for proxy in selectedList :
 			shapeNode = cmds.listConnections( proxy + '.outMesh', sh=True )[0]
 			cmds.setAttr( shapeNode + '.rsObjectId', count)
-			name = cmds.rename(proxy,newName)
-			cmds.rename(shapeNode,'Shape_'+name)
+
+			# skip to rename if node is reference
+			if not cmds.referenceQuery(proxy, inr=True):
+
+				try :
+					name = cmds.rename(proxy,newName)
+					cmds.rename(shapeNode,'Shape_'+name)
+				except :
+					# Error if node is from Scene assembly
+					name = proxy
+
+			else : 
+				logger.warning(proxy + " : is reference node skipped.")
+				name = proxy
 
 			if OverrideStage :
 				cmds.setAttr( name + '.objectIdMode', 1)

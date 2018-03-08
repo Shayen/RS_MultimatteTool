@@ -80,7 +80,7 @@ class app_ui(uic.Ui_MainWindow):
 		self.MaterialID_Start_LineEdit.setText('100')
 		self.MaterialID_Increment_LineEdit.setText('1')
 		self.PuzzleID_Prefix_LineEdit.setText('mm')
-		self.PuzzleID_Name_LineEdit.setText('friends')
+		self.PuzzleID_Name_LineEdit.setText('smallFun')
 		self.ProxyObjID_name_lineEdit.setText('rsProxy')
 		self.ProxyObjID_Start_lineEdit.setText('100')
 		self.ProxyObjID_Increment_lineEdit.setText('1')

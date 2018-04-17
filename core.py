@@ -247,6 +247,7 @@ class app_ui(uic.Ui_MainWindow):
 
 	def ProxyObjID_SetProxyObjID_button_onClick(self):
 		selectedList = [self.ProxyObjID_listWidget.itemWidget(item).text1() for item in self.ProxyObjID_listWidget.selectedItems()]
+		logger.info( 'select ' + str(len(selectedList)) + ' proxies.' )
 
 		if len(selectedList) < 1:
 			self.statusbar.showMessage( 'Please select Proxy in list!!!' )
@@ -265,7 +266,7 @@ class app_ui(uic.Ui_MainWindow):
 
 		self.refresh(section='ProxyID')
 		logger.info('Proxy Object ID was assigned.')
-		self.statusbar.showMessage('assign Proxy object ID success.')	
+		self.statusbar.showMessage('assign Proxy object ID success : ' + str(selectedList))	
 
 	def addMaterialID_toListView(self, materialName, materialID):
 		''' add material to materialID listView '''

@@ -159,6 +159,8 @@ class hook (object):
 		''' create puzzle matte from selcted list 
 		group by type --> MatterialID and ObjectID '''
 
+		allID=[]
+
 		nodeName = mm.eval('rsCreateAov -type "Puzzle Matte";')
 		nodeName = cmds.rename(nodeName, multimatteName)
 
@@ -185,6 +187,10 @@ class hook (object):
 
 			#QUERY PROXY ID HERE!!!!!!!
 			# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+			# Pass duplicate ID
+			if ID in allID :
+				continue
 
 			#Assign ID to PuzzleMatte
 			if count == 3 :
@@ -214,6 +220,9 @@ class hook (object):
 				count += 1
 			except Exception as e:
 				logger.error(e)
+
+			allID.append(ID)
+
 		try:
 			mm.eval('redshiftUpdateActiveAovList;')
 		except :
